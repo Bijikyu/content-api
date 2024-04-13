@@ -1,15 +1,10 @@
-var cors = function (req, res, next) {
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    // Pass to next layer of middleware
-    next();
+// This module defines a middleware function for setting CORS (Cross-Origin Resource Sharing) headers.
+var cors = function (req, res, next) { // cors is a function that takes request, response, and next as arguments
+    res.setHeader('Access-Control-Allow-Origin', '*'); // Sets the Access-Control-Allow-Origin header to allow all origins
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // Sets the Access-Control-Allow-Methods header to specify the allowed HTTP methods
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // Sets the Access-Control-Allow-Headers header to specify the allowed headers in requests
+    res.setHeader('Access-Control-Allow-Credentials', true); // Sets the Access-Control-Allow-Credentials header to allow credentials (such as cookies) to be included in requests
+    next(); // Calls the next middleware function in the stack
 }
 
-module.exports = { cors };
+module.exports = { cors }; // Exports the cors function for use in other modules

@@ -1,0 +1,11 @@
+The provided JavaScript files are part of a Node.js application that interacts with the ManyVids platform, which is an adult entertainment video hosting service. The application uses the WebDriverIO library to automate web browser interactions for tasks such as logging in, uploading, editing, and deleting videos on ManyVids. Below is a synergistic summary of the files:
+
+1. **index.js**: This is the main router module for the ManyVids operations within the application. It sets up routes for various endpoints such as authentication (`/vids/:id`), video capture, upload (`POST /vids`), and deletion (`DELETE /vids/:id`). It uses a helper module (`mvHelper.js`) for the actual interactions with the ManyVids website and spawns child processes (`postVid.js` and `putVid.js`) to handle video posting and updating.
+
+2. **mvHelper.js**: This helper module contains functions that use WebDriverIO to perform actions on the ManyVids website. It includes functions for user authentication (`auth`), fetching video details (`getVid`), and posting video details (`postVid`). The functions are designed to be called with a callback pattern and handle browser session management.
+
+3. **postVid.js**: This script is executed as a child process by `index.js` and is responsible for automating the video upload process to ManyVids. It initializes a WebDriverIO client, logs into the platform, and performs the upload, setting video details such as title and description.
+
+4. **putVid.js**: Similar to `postVid.js`, this script is also executed as a child process and is used for editing video details on ManyVids after an upload. It logs into the platform and updates various attributes of the video like title, description, categories, pricing, and more based on the provided event object.
+
+Overall, these files work together to provide a backend service for automating interactions with the ManyVids platform, allowing for streamlined video management tasks. The application appears to be designed for use by content creators or administrators to manage their ManyVids content programmatically.

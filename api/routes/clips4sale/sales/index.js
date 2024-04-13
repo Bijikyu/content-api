@@ -1,54 +1,45 @@
+// This module sets up a router for handling sales-related routes using Express and includes various dependencies and helper functions.
+
 var sales = require('express').Router({
   mergeParams: true
-});
-const path = require('path');
-var bodyParser = require('body-parser')
-var jsonParser = bodyParser.json()
+}); // creates a new router instance for sales routes, with options to merge parameters from parent routes
+const path = require('path'); // includes the path module for handling file paths
+var bodyParser = require('body-parser') // includes the body-parser middleware for parsing request bodies
+var jsonParser = bodyParser.json() // creates a middleware for parsing JSON request bodies
 
-// clips4sale Helper
-const c4s = require('../c4sHelper.js');
-const salesHelper = require('./salesHelper.js');
+// Helper modules for handling sales and Clips4Sale integration
+const c4s = require('../c4sHelper.js'); // includes the c4sHelper module for Clips4Sale related functions
+const salesHelper = require('./salesHelper.js'); // includes the salesHelper module for additional sales-related functions
 
-const conf = require(path.join(process.env.APPDATA, "clipnuke", "config.json"));
+// Configuration file loading
+const conf = require(path.join(process.env.APPDATA, "clipnuke", "config.json")); // loads the configuration file from the specified path
 
-// Test Route
-/**
- * [exports description]
- * @type {[type]}
- * @query {Integer} s_year Start Year
- * @query {Integer} s_month Start Month
- * @query {Integer} s_day Start Day
- * @query {Integer} e_year End Year
- * @query {Integer} e_month End Month
- * @query {Integer} e_day End Day
- * @query {String} report_type=detail1 Report Type
- * @query {String} stores=all Stores
- * @query {String} action=report Action
- */
-sales.get('/', (req, res) => {
+// Route definition for the sales endpoint
+sales.get('/', (req, res) => { // defines a GET route on the root path of the sales router
   // Webdriver Client Instance
-  const client = require('../../../webdriverio/client.js').client;
+  const client = require('../../../webdriverio/client.js').client; // includes the webdriver client instance for browser automation
   const credentials = {
-    user: conf.settings.clips4sale.user,
-    pass: conf.settings.clips4sale.pass,
-    phpsessid: conf.settings.clips4sale.phpsessid
+    user: conf.settings.clips4sale.user, // sets the username from the configuration file
+    pass: conf.settings.clips4sale.pass, // sets the password from the configuration file
+    phpsessid: conf.settings.clips4sale.phpsessid // sets the PHPSESSID from the configuration file
   };
   const params = {
-    client: client
+    client: client // sets the client instance for use in the c4s helper functions
   };
 
-  c4s.login(credentials, params, function(err, data) {
+  // Login to Clips4Sale and fetch sales report
+  c4s.login(credentials, params, function(err, data) { // calls the login function from the c4s helper with the credentials and params
     if (err) {
-      res.status(401).send('Login Error.', err);
+      res.status(401).send('Login Error.', err); // sends a 401 status code with a login error message if there is an error
     }
-    console.log("Logged in");
-    salesHelper.getReport(credentials, params, req.query, function(err, data) {
+    console.log("Logged in"); // logs to the console that login was successful
+    salesHelper.getReport(credentials, params, req.query, function(err, data) { // calls the getReport function from the sales helper with the credentials, params, and query parameters
       if (err) {
-        console.log(err);
-        res.send(401, err);
+        console.log(err); // logs any errors to the console
+        res.send(401, err); // sends a 401 status code with the error if there is an error
       } else {
-        console.log(data);
-        res.json(data);
+        console.log(data); // logs the data to the console
+        res.json(data); // sends the data as a JSON response
       }
     });
   });
@@ -59,4 +50,4 @@ sales.get('/', (req, res) => {
     }); */
 });
 
-module.exports = sales;
+module.exports = sales; // exports the sales router for use in other modules
