@@ -1,5 +1,7 @@
-node_modules
-*.env*
-test*
-pornhub
-*.log
+// This file appears to be a list of patterns for a .gitignore file, which specifies intentionally untracked files to ignore
+
+node_modules // Ignores the node_modules directory where npm packages are installed
+*.env* // Ignores files with .env in their name, typically used for environment variables
+test* // Ignores files starting with 'test'
+pornhub // Ignores a file or directory named 'pornhub'
+*.log // Ignores log files with the .log extension
