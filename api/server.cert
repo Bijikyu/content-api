@@ -1,24 +1,28 @@
------BEGIN CERTIFICATE-----
-MIID/zCCAuegAwIBAgIJAOnSvx74KMiPMA0GCSqGSIb3DQEBCwUAMIGVMQswCQYD
-VQQGEwJVUzELMAkGA1UECAwCRkwxFDASBgNVBAcMC1BvcnQgUmljaGV5MRcwFQYD
-VQQKDA5OZXJvIE1lZGlhIExMQzELMAkGA1UECwwCSVQxFTATBgNVBAMMDDE5Mi4x
-NjguMS4zODEmMCQGCSqGSIb3DQEJARYXYWlkZW5AeHh4bXVsdGltZWRpYS5jb20w
-HhcNMTkwNDE5MTUxODExWhcNMTkwNTE5MTUxODExWjCBlTELMAkGA1UEBhMCVVMx
-CzAJBgNVBAgMAkZMMRQwEgYDVQQHDAtQb3J0IFJpY2hleTEXMBUGA1UECgwOTmVy
-byBNZWRpYSBMTEMxCzAJBgNVBAsMAklUMRUwEwYDVQQDDAwxOTIuMTY4LjEuMzgx
-JjAkBgkqhkiG9w0BCQEWF2FpZGVuQHh4eG11bHRpbWVkaWEuY29tMIIBIjANBgkq
-hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAv1bYlRsH2PI9m8dMAcmXF2+vUwbx+1/B
-Lp76yWQIK/N+1bUMpHyaZBXt5bHiuAwr7qHcu+i55Z/xVqnjpiRTCOSYzIB2X9T7
-HcG4/eTBPtw4EQP7TLVf5cgZMVyIOeKXv1luaRrTxMm250MsVARlV5SChZpVo2lJ
-oR4yg1DOex62MUqNRFe0EUPj0SxrPi5WusCGbt5ZYV4jbMCRdr4UknAAVjp38s/G
-mkev3li64/g8hWrpFUzmfnREdhoWCMioDiGOxbT9Fg78CfrzDL5leJM5l/hqy37Q
-FNR5Bfoy4eiALW5m5Zr2esqa7+7a5GlrbjJwnvvL3ZFp095cj3RiHQIDAQABo1Aw
-TjAdBgNVHQ4EFgQUd9LNfYi454DhMjzbw7gdzkGlpn0wHwYDVR0jBBgwFoAUd9LN
-fYi454DhMjzbw7gdzkGlpn0wDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQsFAAOC
-AQEAqA5MeipNQOm6+ayf58agjb55VrA4JzL1iEkALye6bHUYxY3NPO8cs+cib4WX
-6z05tzAsnE8e1qGhzyp/eBzqvn0hzDJ5Sw4gjr/mxNeG5m+iJqOJlJWNbRvQbC3t
-uRwiDqYhSKgZf2EyP98Mz8gnBcoqiIUVRdiCsFG/vqObYO6Mzgz+4PjVT+CiYcYA
-NC9mGP4Z66eCbUFzIM/Qa0ypyuPQj5Ldfoz9rJf3lWEnm2wyD/ZAT2M5UR5D0T0S
-s9m4DaPaR5DJpsUs5BvEaSOBq0EoQoAkRrKNm7knF1g3JX5KCbkIazAvnZKIAlHb
-k8AHVRP+J8ZBQFMFVbGr6mzbPA==
------END CERTIFICATE-----
+// This file contains a PEM encoded certificate which is used to establish secure communications
+// between a client and a server over a network. The certificate includes the public key and 
+// identity information of the server and is signed by a trusted certificate authority (CA).
+
+-----BEGIN CERTIFICATE----- // Marks the beginning of the certificate
+MIID/zCCAuegAwIBAgIJAOnSvx74KMiPMA0GCSqGSIb3DQEBCwUAMIGVMQswCQYD // Base64 encoded data: certificate content
+VQQGEwJVUzELMAkGA1UECAwCRkwxFDASBgNVBAcMC1BvcnQgUmljaGV5MRcwFQYD // Base64 encoded data: certificate content
+VQQKDA5OZXJvIE1lZGlhIExMQzELMAkGA1UECwwCSVQxFTATBgNVBAMMDDE5Mi4x // Base64 encoded data: certificate content
+NjguMS4zODEmMCQGCSqGSIb3DQEJARYXYWlkZW5AeHh4bXVsdGltZWRpYS5jb20w // Base64 encoded data: certificate content
+HhcNMTkwNDE5MTUxODExWhcNMTkwNTE5MTUxODExWjCBlTELMAkGA1UEBhMCVVMx // Base64 encoded data: certificate content
+CzAJBgNVBAgMAkZMMRQwEgYDVQQHDAtQb3J0IFJpY2hleTEXMBUGA1UECgwOTmVy // Base64 encoded data: certificate content
+byBNZWRpYSBMTEMxCzAJBgNVBAsMAklUMRUwEwYDVQQDDAwxOTIuMTY4LjEuMzgx // Base64 encoded data: certificate content
+JjAkBgkqhkiG9w0BCQEWF2FpZGVuQHh4eG11bHRpbWVkaWEuY29tMIIBIjANBgkq // Base64 encoded data: certificate content
+hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAv1bYlRsH2PI9m8dMAcmXF2+vUwbx+1/B // Base64 encoded data: certificate content
+Lp76yWQIK/N+1bUMpHyaZBXt5bHiuAwr7qHcu+i55Z/xVqnjpiRTCOSYzIB2X9T7 // Base64 encoded data: certificate content
+HcG4/eTBPtw4EQP7TLVf5cgZMVyIOeKXv1luaRrTxMm250MsVARlV5SChZpVo2lJ // Base64 encoded data: certificate content
+oR4yg1DOex62MUqNRFe0EUPj0SxrPi5WusCGbt5ZYV4jbMCRdr4UknAAVjp38s/G // Base64 encoded data: certificate content
+mkev3li64/g8hWrpFUzmfnREdhoWCMioDiGOxbT9Fg78CfrzDL5leJM5l/hqy37Q // Base64 encoded data: certificate content
+FNR5Bfoy4eiALW5m5Zr2esqa7+7a5GlrbjJwnvvL3ZFp095cj3RiHQIDAQABo1Aw // Base64 encoded data: certificate content
+TjAdBgNVHQ4EFgQUd9LNfYi454DhMjzbw7gdzkGlpn0wHwYDVR0jBBgwFoAUd9LN // Base64 encoded data: certificate content
+fYi454DhMjzbw7gdzkGlpn0wDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQsFAAOC // Base64 encoded data: certificate content
+AQEAqA5MeipNQOm6+ayf58agjb55VrA4JzL1iEkALye6bHUYxY3NPO8cs+cib4WX // Base64 encoded data: certificate content
+6z05tzAsnE8e1qGhzyp/eBzqvn0hzDJ5Sw4gjr/mxNeG5m+iJqOJlJWNbRvQbC3t // Base64 encoded data: certificate content
+uRwiDqYhSKgZf2EyP98Mz8gnBcoqiIUVRdiCsFG/vqObYO6Mzgz+4PjVT+CiYcYA // Base64 encoded data: certificate content
+NC9mGP4Z66eCbUFzIM/Qa0ypyuPQj5Ldfoz9rJf3lWEnm2wyD/ZAT2M5UR5D0T0S // Base64 encoded data: certificate content
+s9m4DaPaR5DJpsUs5BvEaSOBq0EoQoAkRrKNm7knF1g3JX5KCbkIazAvnZKIAlHb // Base64 encoded data: certificate content
+k8AHVRP+J8ZBQFMFVbGr6mzbPA== // Base64 encoded data: certificate content
+-----END CERTIFICATE----- // Marks the end of the certificate

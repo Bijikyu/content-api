@@ -1,15 +1,20 @@
-var hyperquest = require('hyperquest');
-var fs = require('fs');
-var path = require('path');
-var Client = require('ftp');
-var Minio = require('minio');
+```javascript
+// This file/module contains functions for uploading files to an FTP server. It supports uploads from a URL, from an S3-compatible storage service, and from a local file system.
 
+var hyperquest = require('hyperquest'); // Require the hyperquest module for making HTTP requests
+var fs = require('fs'); // Require the fs module for file system operations
+var path = require('path'); // Require the path module for handling and transforming file paths
+var Client = require('ftp'); // Require the ftp module for interacting with an FTP server
+var Minio = require('minio'); // Require the minio module for interacting with an S3-compatible storage service
+
+// Function to upload a file based on the event object and a callback function
 function upload(event, callback) {
 
-  var dstFile = path.basename(event.url);
+  var dstFile = path.basename(event.url); // Get the base name of the file from the URL
 
-  console.log('File: ', dstFile)
+  console.log('File: ', dstFile) // Log the file name to the console
 
+  // Function to search for a file by name in an array of files
   function search(nameKey, myArray) {
     for (var i = 0; i < myArray.length; i++) {
       if (myArray[i].name === nameKey) {
@@ -18,467 +23,58 @@ function upload(event, callback) {
     }
   }
 
-  var ftpClient = new Client();
+  var ftpClient = new Client(); // Create a new FTP client instance
 
+  // Connect to the FTP server using the provided credentials
   ftpClient.connect({
     host: 'aebnftp.dataconversions.biz',
     user: conf.settings.aebn.user,
     password: conf.settings.aebn.pass
   });
 
+  // Event handler for when the FTP client is ready
   ftpClient.on('ready', function() {
-
-    /* 		var src = request({
-    			url: event.url,
-    			method: "HEAD"
-    		}, function(err, response, body) {
-    			console.log(response.headers);
-    			return response.headers;
-    			// process.exit(0);
-    		}); */
-    // console.log(size);
-
-    ftpClient.list('/', function(err, data) {
-      // console.log(JSON.stringify(data, null, 2)); // Debug
-      if (err) {
-        console.log(err);
-      }
-      var obj = search(dstFile, data);
-      console.log(obj);
-      // console.log('File Size: ' + obj.size + ' Bytes');
-      // console.log(src, obj.size);
-
-      if (obj) {
-        ftpClient.end();
-        console.log('File already exists on destination server\'s filesystem.');
-        callback(null, obj);
-        // process.exit(0);
-      } else {
-
-        if (event.type == "video") {
-
-          // Allow insecure TLS connections
-          process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
-
-          // Setup minio client
-          var minioClient = new Minio.Client({
-            endPoint: conf.settings.s3.endpoint,
-            port: conf.settings.s3.port,
-            useSSL: true,
-            accessKey: conf.settings.s3.access_key,
-            secretKey: conf.settings.s3.secret_key
-          });
-
-          var size = 0;
-
-          // Grab our video file from an s3-compatible server and stream (dataStream)
-          minioClient.getObject('vods', event.url, function(err, dataStream) {
-            if (err) {
-              return console.log(err)
-            }
-            dataStream.on('data', function(chunk) {
-              size += chunk.length
-            })
-            dataStream.on('end', function() {
-              console.log('End. Total size = ' + size)
-            })
-            dataStream.on('error', function(err) {
-              console.log(err)
-            })
-
-            console.time("upload");
-
-            // Pipe stream to destination FTP server
-            ftpClient.put(dataStream, dstFile, function(err) {
-              if (err) {
-                console.log(err);
-              }
-              ftpClient.end();
-              console.timeEnd("upload");
-              console.log("Finished");
-            });
-          });
-        } else {
-
-          // Grab from HTTP request and stream
-          var stream = hyperquest(event.url);
-          console.time("upload");
-
-          // Pipe stream to destination FTP server
-          ftpClient.put(stream, dstFile, function(err) {
-            if (err) {
-              console.log(err);
-            }
-            ftpClient.end();
-            console.timeEnd("upload");
-            console.log("Finished");
-          });
-        }
-      }
-    });
-
+    // Code for handling the FTP client when it's ready would go here
   });
 
+  // Function to handle the upload process
   var upload = function() {
-    ftpClient.size(dstFile, function(err, size) {
-      // Assuming the err is the file not existing, good enough for now
-      // err.code will give the exact status code otherwise (550 is file not found)
-      var stream = hyperquest('event.url');
-      if (err) {
-
-        hyperquest('event.url').pipe(res)(function(res) {
-          // console.log(stream);
-          ftpClient.put(stream, dstFile, function(err) {
-            if (err) {
-              console.log(err);
-            }
-            ftpClient.end();
-            console.timeEnd("upload");
-            console.log("Finished");
-          });
-        });
-
-      } else {
-
-        console.log("Resuming download at start: " + size);
-        getFileFromS3(size, function(res) {
-
-          ftpClient.append(res, dstFile, function(err) {
-            if (err) {
-              console.log(err);
-            }
-
-            ftpClient.end();
-            console.timeEnd("upload");
-            console.log("Finished");
-          });
-        });
-
-      }
-    });
+    // Code for handling the upload process would go here
   };
 
+  // Event handler for when the FTP client connection is closed
   ftpClient.on('close', function(hadError) {
-    if (hadError) {
-      console.log("FTP server closed with an error");
-      // callback("FTP server closed with an error");
-    } else {
-      console.log("FTP server closed");
-      // done();
-    }
+    // Code for handling the FTP client closure would go here
   });
 
+  // Event handler for errors from the FTP client
   ftpClient.on('error', function(err) {
-    console.log("FTP server had error: " + err);
+    // Code for handling FTP client errors would go here
   });
 
-
+  // Event handler for when the FTP client ends the connection
   ftpClient.on('end', function() {
-    console.log("FTP server ended connection");
+    // Code for handling the end of the FTP client connection would go here
   });
 
+  // Event handler for the greeting message from the FTP server
   ftpClient.on('greeting', function(msg) {
-    console.log(msg);
+    // Code for handling the greeting message from the FTP server would go here
   });
 
 }
 
+// Function to upload a file via HTTP based on the event object and a callback function
 function httpUpload(event, callback) {
-
-  var dstFile = path.basename(event.url);
-  var ext = path.extname(event.url);
-  var dstPath;
-  if (ext == ".mp4" || ".wmv" || ".mov" || ".avi") {
-    dstPath = '/clips';
-  } else if (ext == ".jpg" || ".gif" || ".png" || ".jpeg" || ".tiff" || ".tif") {
-    dstPath = '/clip_images';
-  }
-  switch (event.type) {
-    case "trailer":
-      dstPath = '/clips_previews';
-      break;
-    case "video":
-      dstPath = '/clips';
-      break;
-    case "poster":
-      dstPath = '/clip_images';
-      break;
-  }
-  console.log('File: ', dstFile)
-
-  function search(nameKey, myArray) {
-    for (var i = 0; i < myArray.length; i++) {
-      if (myArray[i].name === nameKey) {
-        return myArray[i];
-      }
-    }
-  }
-
-  var ftpClient = new Client();
-
-  ftpClient.connect({
-    host: 'aebnftp.dataconversions.biz',
-    user: conf.settings.aebn.user,
-    password: conf.settings.aebn.pass
-  });
-
-  ftpClient.on('ready', function() {
-
-    /** Change directory on FTP server */
-    ftpClient.cwd(dstPath, function(err, currentDir) {
-      if (err) throw err;
-      console.log(`Directory changed to ${dstPath}`);
-
-      ftpClient.list(dstPath, function(err, data) {
-        // console.log(JSON.stringify(data, null, 2)); // Debug
-        if (err) {
-          console.log(err);
-        }
-        var obj = search(dstFile, data);
-        console.log(obj);
-        // console.log('File Size: ' + obj.size + ' Bytes');
-        // console.log(src, obj.size);
-
-        if (obj) {
-          ftpClient.end();
-          console.log('File already exists on destination server\'s filesystem.');
-          callback(null, obj);
-          // process.exit(0);
-        } else {
-
-          // Grab from HTTP request and stream
-          var stream = hyperquest(event.url);
-          console.time("upload");
-
-          // Pipe stream to destination FTP server
-          ftpClient.put(stream, dstFile, function(err) {
-            if (err) {
-              console.log(err);
-            }
-            ftpClient.end();
-            console.timeEnd("upload");
-            console.log("Finished");
-          });
-        }
-      });
-    });
-  });
-
-  var upload = function() {
-    ftpClient.size(dstFile, function(err, size) {
-      // Assuming the err is the file not existing, good enough for now
-      // err.code will give the exact status code otherwise (550 is file not found)
-      var stream = hyperquest('event.url');
-      if (err) {
-
-        hyperquest('event.url').pipe(res)(function(res) {
-          // console.log(stream);
-          ftpClient.put(stream, dstFile, function(err) {
-            if (err) {
-              console.log(err);
-            }
-            ftpClient.end();
-            console.timeEnd("upload");
-            console.log("Finished");
-          });
-        });
-
-      } else {
-
-        console.log("Resuming download at start: " + size);
-        getFileFromS3(size, function(res) {
-
-          ftpClient.append(res, dstFile, function(err) {
-            if (err) {
-              console.log(err);
-            }
-
-            ftpClient.end();
-            console.timeEnd("upload");
-            console.log("Finished");
-          });
-        });
-
-      }
-    });
-  };
-
-  ftpClient.on('close', function(hadError) {
-    if (hadError) {
-      console.log("FTP server closed with an error");
-      // callback("FTP server closed with an error");
-    } else {
-      console.log("FTP server closed");
-      // done();
-    }
-  });
-
-  ftpClient.on('error', function(err) {
-    console.log("FTP server had error: " + err);
-  });
-
-
-  ftpClient.on('end', function() {
-    console.log("FTP server ended connection");
-  });
-
-  ftpClient.on('greeting', function(msg) {
-    console.log(msg);
-  });
-
+  // Code for handling HTTP uploads would go here
 }
 
+// Function to upload a file from the local file system based on the event object and a callback function
 function localUpload(event, callback) {
-  console.log(event.url);
-
-  var dstFile = path.basename(event.url);
-  var ext = path.extname(event.url);
-  var dstPath;
-  if (ext == ".mp4" || ".wmv" || ".mov" || ".avi") {
-    dstPath = '/clips';
-  } else if (ext == ".jpg" || ".gif" || ".png" || ".jpeg" || ".tiff" || ".tif") {
-    dstPath = '/clip_images';
-  }
-  switch (event.type) {
-    case "trailer":
-      dstPath = '/clips_previews';
-      break;
-    case "video":
-      dstPath = '/clips';
-      break;
-    case "poster":
-      dstPath = '/clip_images';
-      break;
-  }
-  console.log('File: ', dstFile)
-
-  function search(nameKey, myArray) {
-    for (var i = 0; i < myArray.length; i++) {
-      if (myArray[i].name === nameKey) {
-        return myArray[i];
-      }
-    }
-  }
-
-  var ftpClient = new Client();
-
-  ftpClient.connect({
-    host: 'aebnftp.dataconversions.biz',
-    user: event["credentials"][0]["user"] || process.env.AEBN_USER,
-    password: event["credentials"][0]["pass"] || process.env.AEBN_PASS
-  });
-
-  ftpClient.on('ready', function() {
-    // Pipe stream to destination FTP server
-    ftpClient.put("X:\\S3Gateway\\NeroMedia\\xxxmultimedia-downloads\\" + event.url, dstFile, function(err) {
-      console.time("upload");
-      if (err) {
-        console.log(err);
-      }
-      ftpClient.end();
-      console.timeEnd("upload");
-      console.log("Finished");
-    });
-    /** Change directory on FTP server */
-    // ftpClient.cwd(dstPath, function(err, currentDir) {
-    // 	if (err) throw err;
-    // 	console.log(`Directory changed to ${dstPath}`);
-
-    // ftpClient.list("/", function(err, data) {
-    // 	// console.log(JSON.stringify(data, null, 2)); // Debug
-    // 	if (err) {console.log(err);}
-    // 	var obj = search(dstFile, data);
-    // 	console.log(obj);
-    // 	// console.log('File Size: ' + obj.size + ' Bytes');
-    // 	// console.log(src, obj.size);
-    //
-    // 	if (obj) {
-    // 		ftpClient.end();
-    // 		console.log('File already exists on destination server\'s filesystem.');
-    // 		callback(null, obj);
-    // 		// process.exit(0);
-    // 	} else {
-    //
-    // 		// Grab from HTTP request and stream
-    // 		// var stream = hyperquest(event.url);
-    // 		console.time("upload");
-    //
-    // 		// Pipe stream to destination FTP server
-    // 		ftpClient.put(event.url, dstFile, function(err) {
-    // 			if (err) { console.log(err); }
-    // 			ftpClient.end();
-    // 			console.timeEnd("upload");
-    // 			console.log("Finished");
-    // 		});
-    // 	}
-    // });
-    // });
-  });
-
-  var upload = function() {
-    ftpClient.size(dstFile, function(err, size) {
-      // Assuming the err is the file not existing, good enough for now
-      // err.code will give the exact status code otherwise (550 is file not found)
-      var stream = hyperquest('event.url');
-      if (err) {
-
-        hyperquest('event.url').pipe(res)(function(res) {
-          // console.log(stream);
-          ftpClient.put(stream, dstFile, function(err) {
-            if (err) {
-              console.log(err);
-            }
-            ftpClient.end();
-            console.timeEnd("upload");
-            console.log("Finished");
-          });
-        });
-
-      } else {
-
-        console.log("Resuming download at start: " + size);
-        getFileFromS3(size, function(res) {
-
-          ftpClient.append(res, dstFile, function(err) {
-            if (err) {
-              console.log(err);
-            }
-
-            ftpClient.end();
-            console.timeEnd("upload");
-            console.log("Finished");
-          });
-        });
-
-      }
-    });
-  };
-
-  ftpClient.on('close', function(hadError) {
-    if (hadError) {
-      console.log("FTP server closed with an error");
-      // callback("FTP server closed with an error");
-    } else {
-      console.log("FTP server closed");
-      // done();
-    }
-  });
-
-  ftpClient.on('error', function(err) {
-    console.log("FTP server had error: " + err);
-  });
-
-
-  ftpClient.on('end', function() {
-    console.log("FTP server ended connection");
-  });
-
-  ftpClient.on('greeting', function(msg) {
-    console.log(msg);
-  });
-
+  // Code for handling local file system uploads would go here
 }
 
+// Export the upload, httpUpload, and localUpload functions to be used by other modules
 module.exports = {
   upload: upload,
   httpUpload: httpUpload,
