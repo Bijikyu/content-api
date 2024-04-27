@@ -28,6 +28,7 @@ mv.login(params, function(err, cookie) { // Call the login function from the Man
   var id = process.argv[2]; // Store the third command line argument as the video ID
 
   mv.editVid(id, params, function(err, data) { // Call the editVid function from the ManyVids module with the video ID, parameters, and a callback function
+
     console.log(data); // Log the data returned from the editVid function to the console
   });
 

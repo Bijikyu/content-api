@@ -1,7 +1,9 @@
-// This file appears to be a .gitignore or similar ignore file, specifying patterns for files and directories to be excluded from version control or packaging
+
+// This file appears to be a list of patterns for a .gitignore file, which specifies intentionally untracked files to ignore
 
 node_modules // Ignores the node_modules directory where npm packages are installed
 *.env* // Ignores files with .env in the name, typically used for environment variables
 test* // Ignores files or directories starting with 'test'
+
 pornhub // Ignores a file or directory named 'pornhub'
 *.log // Ignores log files with the .log extension
